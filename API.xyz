@@ -1,0 +1,56 @@
+local CB = {}
+
+KnivesLibrary.Knifes = {
+    Axe = "v_Bearded Axe",
+    Falchion = "v_Falchion Knife",
+    Falcon = "v_Falchion Classic",
+    Karambit = "v_Karambit",
+    Bayonet = "v_Bayonet",
+    Banana = "v_Banana",
+    Cleaver = "v_Cleaver",
+    Gut = "v_Gut Knife",
+    Huntsman = "v_Huntsman Knife",
+    Sickle = "v_Sickle",
+    Sikes = "v_Sickle Classic",
+    Crowbar = "v_Crowbar",
+}
+
+function KnivesLibrary.SetKnife(skin, team)
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    local CT = replicatedStorage.Viewmodels["v_CT Knife"]
+    local T = replicatedStorage.Viewmodels["v_T Knife"]
+    if team == "CT" then
+        if CT then CT:Destroy() end
+        CT.Name = skin
+    elseif team == "T" then
+        if T then T:Destroy() end
+        T.Name = skin
+    end
+end
+
+function KnivesLibrary.SetMaxWalkspeed()
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    for _, team in ipairs(replicatedStorage.HUInfo:GetChildren()) do
+        for _, walkSpeed in ipairs(team:GetChildren()) do
+            walkSpeed.Value = math.huge
+        end
+    end
+end
+
+function KnivesLibrary.InfinityBuyDistance()
+    local player = game:GetService("Players").LocalPlayer
+    player.PlayerGui.Buy.MaxDistance.Value = math.huge
+end
+
+function KnivesLibrary.GetBomb()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+    local bomb = game.Workspace:FindFirstChild("C4")
+
+    if bomb and bomb:FindFirstChild("PrimaryPart") and humanoidRootPart then
+        bomb.PrimaryPart.CFrame = humanoidRootPart.CFrame
+    end
+end
+
+return CB
